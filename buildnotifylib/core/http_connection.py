@@ -3,6 +3,7 @@ import urllib2
 import urlparse
 import base64
 import platform
+import ssl
 
 
 class HttpConnection:
@@ -22,4 +23,4 @@ class HttpConnection:
             unquoted_password = urllib2.unquote(password)
             encodedstring = base64.encodestring("%s:%s" % (unquoted_username, unquoted_password))[:-1]
             headers["Authorization"] = "Basic %s" % encodedstring
-        return urllib2.urlopen(urllib2.Request(url_without_auth, None, headers))
+        return urllib2.urlopen(urllib2.Request(url_without_auth, None, headers), context=ssl.SSLContext(ssl.PROTOCOL_TLSv1))
